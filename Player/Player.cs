@@ -9,13 +9,15 @@ public class Player : MonoBehaviour
 
     public GameObject pivot;                                  // player's pivot gameobject.
 
-    private bool canMove;                                      // whether the player can move or not.
+    public bool canMove;                                      // whether the player can move or not.
+    
+    private GameObject mainCamera;                            // main camera gameobject - used here to tell the camera when needs to rotate to keep the player focused in the current scene.
 
     // Start is called before the first frame update
     void Start()
     {
         initZ = transform.position.z;
-        canMove = false;
+        canMove = true;
     }
 
     // Update is called once per frame
@@ -23,10 +25,13 @@ public class Player : MonoBehaviour
     {
         //fixBallPosition();
         // resetRotation();
+        mainCamera = GameObject.FindGameObjectWithTag( "MainCamera" );
 
         if ( canMove && pivot != null ) {
-            Debug.Log( "here" );
+            
             movePlayer( 1 );
+
+            // detectMouseInputForPlayer();
         } else {
             resetRotation();
             fixBallPosition();
@@ -55,11 +60,15 @@ public class Player : MonoBehaviour
     /// rotating around the cilindre pivot in the center
     /// of the scene.
     /// </summary>
-    /// <param name="direction">int - Direction to rotate the ball around - 1 is positive ( right ), left is negative ( left )
+    /// <param name="direction">Int - Direction to rotate the ball around - 1 is positive ( right ), left is negative ( left )
     /// 0 will not move the player.
     /// </param>
     public void movePlayer( int direction = 0 ) {
+        Vector3 pivotPosition = pivot.transform.position;
+        Vector3 axis = new Vector3( 0, 1, 0 );
         float speed = rotationSpeed * Time.deltaTime;
+
+        // set move left or right.
         if ( direction < 0 ) {
             speed = - ( speed );
         }
@@ -68,8 +77,16 @@ public class Player : MonoBehaviour
             rotationSpeed = 0;
         }
 
-        Debug.Log( pivot.transform.rotation );
+        transform.RotateAround( pivotPosition, axis, speed );
+        if( mainCamera != null ) {
+            mainCamera.GetComponent<CameraBehaviour>().SetCameraRotation( pivotPosition, axis, speed );
+        }
+    }
 
-        transform.RotateAround( pivot.transform.position, new Vector3( 0, 1, 0 ), speed );
+    /// <summary>
+    /// Check user input for mouse / tapping for controlling player.
+    /// </summary>
+    private void detectMouseInputForPlayer() {
+        // return;
     }
 }
