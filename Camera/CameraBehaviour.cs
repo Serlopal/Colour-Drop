@@ -63,7 +63,7 @@ public class CameraBehaviour : MonoBehaviour
 
     /// <summary>
     /// Initialise camera rotation and position
-    // </summary>
+    /// </summary>
     public void initCameraPositionRotation() {
         if ( initCameraPosition.Length == 3 ) {
             transform.position = new Vector3( initCameraPosition[0], initCameraPosition[1], initCameraPosition[2] );
