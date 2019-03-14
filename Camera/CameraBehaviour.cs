@@ -5,9 +5,13 @@ using UnityEngine;
 public class CameraBehaviour : MonoBehaviour
 {
     public GameObject player;                                  // player gameobject.
+    private Player playerScript;                                // player's logic script component.
     public float distanceFromPlayer = 0;                       // distance where the camera is located from player.
     public float distanceFromTop = - 8f;                       // used to show more screen below the ball when is failling, so the player can see the obstacles with ease.
     public float xAdjustement = - 15f;                         // used to correct the camera's X axis when the camera distance to the player changes.
+
+    public float[] initCameraPosition = new float[3];       // init camera position values.
+    public float[] initCameraRotation = new float[3];       // init camera rotation values.
 
     public GameObject pivot;                                  // player's pivot gameobject.
 
@@ -15,16 +19,22 @@ public class CameraBehaviour : MonoBehaviour
     void Start()
     {
         if ( player != null ) {
-            InitUpdateCameraPosition();
+            playerScript = player.GetComponent<Player>();
+            // InitUpdateCameraPosition();
+            initCameraPositionRotation();
         }
     }
 
     // Update is called once per frame
     void Update()
     {
-        if ( player != null ) {
-            InitUpdateCameraPosition();
+        if ( playerScript != null ) {
+            if ( ! playerScript.isMoving ) {
+                // InitUpdateCameraPosition();
+            }
+        
         }
+
     }
 
     /// <summary>
@@ -48,12 +58,21 @@ public class CameraBehaviour : MonoBehaviour
     /// <param name="axis">Vector3 Axis to rotate around</param>
     /// <param name="speed">Rotation speed</param>
     public void SetCameraRotation( Vector3 pivotPosition, Vector3 axis, float speed ) {
-        /*
-        transform.RotateAround( pivotPosition, axis, speed );
-        Quaternion q = transform.rotation;
-        q.eulerAngles = new Vector3( 0, speed, 0 );
-        transform.rotation = q;
-        */
-        
+        transform.RotateAround( pivot.transform.position, axis, speed );
+    }
+
+    /// <summary>
+    /// Initialise camera rotation and position
+    // </summary>
+    public void initCameraPositionRotation() {
+        if ( initCameraPosition.Length == 3 ) {
+            transform.position = new Vector3( initCameraPosition[0], initCameraPosition[1], initCameraPosition[2] );
+        }
+
+        if ( initCameraRotation.Length == 3 ) {
+            Quaternion q = transform.rotation;
+            q.eulerAngles = new Vector3( initCameraRotation[0], initCameraRotation[1], initCameraRotation[2] );
+            transform.rotation = q;
+        }
     }
 }

@@ -10,6 +10,7 @@ public class Player : MonoBehaviour
     public GameObject pivot;                                  // player's pivot gameobject.
 
     public bool canMove;                                      // whether the player can move or not.
+    public bool isMoving;                                     // whether the player is moving.
     
     private GameObject mainCamera;                            // main camera gameobject - used here to tell the camera when needs to rotate to keep the player focused in the current scene.
 
@@ -18,6 +19,8 @@ public class Player : MonoBehaviour
     {
         initZ = transform.position.z;
         canMove = true;
+        isMoving = false;
+        
     }
 
     // Update is called once per frame
@@ -27,15 +30,26 @@ public class Player : MonoBehaviour
         // resetRotation();
         mainCamera = GameObject.FindGameObjectWithTag( "MainCamera" );
 
-        if ( canMove && pivot != null ) {
-            
+        /**
+        if ( canMove && pivot != null && isMoving ) {
             movePlayer( 1 );
-
             // detectMouseInputForPlayer();
         } else {
             resetRotation();
             fixBallPosition();
         }
+        */
+
+        if ( Input.GetMouseButton(0) && canMove && pivot != null ) {
+            isMoving = true;
+            detectMouseInputForPlayer();
+        } else {
+            isMoving = false;
+            // resetRotation();
+            // fixBallPosition();
+        }
+
+
     }
 
     /// <summary>
@@ -87,6 +101,7 @@ public class Player : MonoBehaviour
     /// Check user input for mouse / tapping for controlling player.
     /// </summary>
     private void detectMouseInputForPlayer() {
-        // return;
+        int direction = ( Input.mousePosition.x >= transform.position.x ) ? 1 : - 1;
+        movePlayer(direction);
     }
 }
