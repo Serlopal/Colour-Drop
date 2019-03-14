@@ -28,13 +28,10 @@ public class CameraBehaviour : MonoBehaviour
     // Update is called once per frame
     void Update()
     {
-        if ( playerScript != null ) {
-            if ( ! playerScript.isMoving ) {
-                // InitUpdateCameraPosition();
-            }
-        
+        if ( player != null ) {
+            // adjustCameraOnYAxis();
         }
-
+        adjustCameraOnYAxis( player );
     }
 
     /// <summary>
@@ -43,7 +40,6 @@ public class CameraBehaviour : MonoBehaviour
     /// </summary>
     private void InitUpdateCameraPosition() {
         transform.position = new Vector3( player.transform.position.x - xAdjustement, player.transform.position.y - distanceFromTop, player.transform.position.z + distanceFromPlayer );
-        // transform.LookAt( player.transform );
     }
 
     /// <summary>
@@ -69,10 +65,28 @@ public class CameraBehaviour : MonoBehaviour
             transform.position = new Vector3( initCameraPosition[0], initCameraPosition[1], initCameraPosition[2] );
         }
 
+
         if ( initCameraRotation.Length == 3 ) {
             Quaternion q = transform.rotation;
             q.eulerAngles = new Vector3( initCameraRotation[0], initCameraRotation[1], initCameraRotation[2] );
             transform.rotation = q;
         }
+    }
+
+    /// <summary>
+    /// Adjust camera Y position to match player.
+    /// We ensure the camera is always at the same position that
+    /// the player when it falls and bounces.
+    /// </summary>
+    public void adjustCameraOnYAxis(GameObject player) {
+        float toAdjust = transform.position.y - player.transform.position.y;
+        float toUpdate = player.transform.position.y + toAdjust;
+        //Debug.Log( player.transform.position.y );
+        //Debug.Log( player.transform.position.y + ( transform.position.y - player.transform.position.y ) );
+        Debug.Log( toAdjust ); 
+        
+        //Debug.Log( toAdjust );
+        //Debug.Log( player.transform.position.y + toAdjust );
+        transform.position = new Vector3( transform.position.x, player.transform.position.y + toAdjust, transform.position.z );
     }
 }
