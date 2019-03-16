@@ -13,6 +13,7 @@ public class Player : MonoBehaviour
     public bool isMoving;                                     // whether the player is moving.
     
     private GameObject mainCamera;                            // main camera gameobject - used here to tell the camera when needs to rotate to keep the player focused in the current scene.
+    private int direction;                                    // in which direction the player is moving;
     
 
     // Start is called before the first frame update
@@ -31,7 +32,7 @@ public class Player : MonoBehaviour
         // resetRotation();
         mainCamera = GameObject.FindGameObjectWithTag( "MainCamera" );
 
-        
+        /**
         if ( canMove && pivot != null && isMoving ) {
             movePlayer( 1 );
             // detectMouseInputForPlayer();
@@ -39,17 +40,18 @@ public class Player : MonoBehaviour
             // resetRotation();
             // fixBallPosition();
         }
-        
-        /**
-        if ( Input.GetMouseButton(0) && canMove && pivot != null ) {
-            isMoving = true;
-            // detectMouseInputForPlayer();
-        } else {
-            isMoving = false;
-            // resetRotation();
-            // fixBallPosition();
-        }
         */
+
+        if ( Input.GetMouseButton(0) ) {
+            direction = 1;
+            movePlayer( direction );
+        }
+
+        if ( Input.GetMouseButton(1) ) {
+            direction = - 1;
+            movePlayer( direction );
+        }
+
 
     }
 
