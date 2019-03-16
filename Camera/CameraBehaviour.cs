@@ -14,12 +14,14 @@ public class CameraBehaviour : MonoBehaviour
     public float[] initCameraRotation = new float[3];       // init camera rotation values.
 
     public GameObject pivot;                                  // player's pivot gameobject.
+    private Rigidbody playerRigibody;                         // player's Rigibody component.
 
     // Start is called before the first frame update
     void Start()
     {
         if ( player != null ) {
             playerScript = player.GetComponent<Player>();
+            playerRigibody = player.GetComponent<Rigidbody>();
             // InitUpdateCameraPosition();
             initCameraPositionRotation();
         }
@@ -81,12 +83,10 @@ public class CameraBehaviour : MonoBehaviour
     public void adjustCameraOnYAxis(GameObject player) {
         float toAdjust = transform.position.y - player.transform.position.y;
         float toUpdate = player.transform.position.y + toAdjust;
-        //Debug.Log( player.transform.position.y );
-        //Debug.Log( player.transform.position.y + ( transform.position.y - player.transform.position.y ) );
-        Debug.Log( toAdjust ); 
+
+        Debug.Log( playerRigibody.useGravity );
+        Debug.Log( playerRigibody.velocity );
         
-        //Debug.Log( toAdjust );
-        //Debug.Log( player.transform.position.y + toAdjust );
         transform.position = new Vector3( transform.position.x, player.transform.position.y + toAdjust, transform.position.z );
     }
 }
