@@ -15,6 +15,7 @@ public class CameraBehaviour : MonoBehaviour
 
     public GameObject pivot;                                  // player's pivot gameobject.
     private Rigidbody playerRigibody;                         // player's Rigibody component.
+    private float toAdjust;                                   // distance between the camera and the player.
 
     // Start is called before the first frame update
     void Start()
@@ -82,11 +83,12 @@ public class CameraBehaviour : MonoBehaviour
     /// </summary>
     public void adjustCameraOnYAxis(GameObject player) {
         float toAdjust = transform.position.y - player.transform.position.y;
-        float toUpdate = player.transform.position.y + toAdjust;
 
-        Debug.Log( playerRigibody.useGravity );
-        Debug.Log( playerRigibody.velocity );
-        
-        transform.position = new Vector3( transform.position.x, player.transform.position.y + toAdjust, transform.position.z );
+        if ( playerRigibody.useGravity ) {
+            toAdjust = transform.position.y - player.transform.position.y;
+            // Debug.Log( toAdjust );
+            // to adjust not working - distance is always the same so it can be, for now, hardcoded, but to fix.
+            transform.position = new Vector3( transform.position.x, player.transform.position.y + 8f, transform.position.z );
+        }
     }
 }
