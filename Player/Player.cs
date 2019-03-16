@@ -19,28 +19,14 @@ public class Player : MonoBehaviour
     // Start is called before the first frame update
     void Start()
     {
+        // TODO: Init CanMove.
         initZ = transform.position.z;
-        //canMove = true;
-        //isMoving = false;
-        
     }
 
     // Update is called once per frame
     void Update()
     {
-        //fixBallPosition();
-        // resetRotation();
         mainCamera = GameObject.FindGameObjectWithTag( "MainCamera" );
-
-        /**
-        if ( canMove && pivot != null && isMoving ) {
-            movePlayer( 1 );
-            // detectMouseInputForPlayer();
-        } else {
-            // resetRotation();
-            // fixBallPosition();
-        }
-        */
 
         if ( Input.GetMouseButton(0) ) {
             direction = 1;
