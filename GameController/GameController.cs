@@ -2,6 +2,7 @@
 using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.UI;
+using UnityEngine.SceneManagement;
 
 public class GameController : MonoBehaviour
 {
@@ -10,6 +11,7 @@ public class GameController : MonoBehaviour
 
     public Material[] colors = new Material[3];                 // List of possible materials the player can swich to.
     private GameObject[] uiPlayerColors;                        // List of possible player colors in the UI.
+    public GameObject uiScore;                                 // Total current level score.
 
     private Vector3 active = new Vector3( 1f, 1f, 1f );         // Vector 3 to use with the active item in the player colors UI.
     private Vector3 inactive = new Vector3( 0.5f, 0.5f, 0.5f ); // Vector3 to use with inactive items in the player colors UI.
@@ -78,5 +80,26 @@ public class GameController : MonoBehaviour
                 uiPlayerColorRectTransform.localScale = active;
             }
         }
+    }
+
+    /// <summary>
+    /// GameOver method. Called when the player dies.
+    /// </summary>
+    public void GameOver() {
+        SceneManager.LoadScene( SceneManager.GetActiveScene().name );
+    }
+
+    /// <summary>
+    /// Update level score.
+    /// </summary>
+    /// <param name="toAdd">int - Amount to add. Default to 1</param>
+    public void UpdateScore( int toAdd = 1 ) {
+        if ( uiScore == null ) {
+            return;
+        }
+
+        Text uiScoreText = uiScore.GetComponent<Text>();
+        int score = int.Parse( uiScoreText.text );
+        uiScoreText.text = ( score + toAdd ).ToString();
     }
  }
