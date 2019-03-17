@@ -70,7 +70,6 @@ public class GameController : MonoBehaviour
     /// </summary>
     /// <param name="hexaColor">string - Player's material color value in hexadecimal string</param>
     private void SetUiPlayerColor( string hexaColor ) {
-        Debug.Log( "called" );
         
         for( int j = 0; j < uiPlayerColors.Length; j++ ) {
             RectTransform uiPlayerColorRectTransform = uiPlayerColors[j].GetComponent<RectTransform>();
