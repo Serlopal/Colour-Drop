@@ -67,14 +67,18 @@ public class Platforms : MonoBehaviour
     /// <param name="other">Collision GameObject collided by this item</param>
     void OnCollisionEnter(Collision other)
     {
-        Debug.Log( "called" );
         if ( other.gameObject.tag == "Player" ) {
             Renderer playerRenderer = other.gameObject.GetComponent<Renderer>();
-            Renderer thisRenderer = GetComponent<Renderer>(); 
+            Renderer thisRenderer = GetComponent<Renderer>();
             
             // collision checker for platforms.
             if (gameObject.tag == "platform" ) {
                 checkColorCollision( playerRenderer, thisRenderer, 2 );
+            }
+
+            // collision checker for coins.
+            if (gameObject.tag == "coin" ) {
+                checkColorCollision( playerRenderer, thisRenderer, 1 );
             }
 
         }
