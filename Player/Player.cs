@@ -14,6 +14,8 @@ public class Player : MonoBehaviour
     
     private GameObject mainCamera;                            // main camera gameobject - used here to tell the camera when needs to rotate to keep the player focused in the current scene.
     private int direction;                                    // in which direction the player is moving;
+    public float maxVelocity;                                 // max velocity allowed for the ball when failing.
+    private Rigidbody rigibody;                               // Player Rigibody component.
     
 
     // Start is called before the first frame update
@@ -27,6 +29,7 @@ public class Player : MonoBehaviour
     void Update()
     {
         mainCamera = GameObject.FindGameObjectWithTag( "MainCamera" );
+        rigibody = GetComponent<Rigidbody>();
 
         if ( Input.GetMouseButton(0) ) {
             direction = 1;
@@ -38,7 +41,9 @@ public class Player : MonoBehaviour
             movePlayer( direction );
         }
 
-
+        if ( rigibody != null ) {
+            CheckMaxVelocity();
+        }
     }
 
     /// <summary>
@@ -92,5 +97,14 @@ public class Player : MonoBehaviour
     private void detectMouseInputForPlayer() {
         int direction = ( Input.mousePosition.x >= transform.position.x ) ? 1 : - 1;
         movePlayer(direction);
+    }
+
+    /// <summary>
+    /// Set max falling velocity
+    /// </summary>
+    private void CheckMaxVelocity() {
+        if ( rigibody.velocity.sqrMagnitude > maxVelocity ) {
+            rigibody.velocity *= 0.99f;
+        }
     }
 }
