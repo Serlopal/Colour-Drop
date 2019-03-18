@@ -13,6 +13,7 @@ public class companyImage : MonoBehaviour
 
     private Image image;                                    // Image component to work with.
     private GameController gameController;                  // GameController - used to load scenes.
+
     // Start is called before the first frame update
     void Start()
     {
@@ -39,7 +40,7 @@ public class companyImage : MonoBehaviour
     }
 
     /// <summary>
-    /// Fade In Text component
+    /// Fade Image component
     /// </summary>
     /// <param name="time">Float time animation duration</param>
     /// <param name="text">GameObject Text component</param>
@@ -56,7 +57,7 @@ public class companyImage : MonoBehaviour
     }
 
     /// <summary>
-    /// Fade Out Text component
+    /// Fade Out Image component
     /// </summary>
     /// <param name="time">Float time animation duration</param>
     /// <param name="text">GameObject Text component</param>
@@ -78,7 +79,7 @@ public class companyImage : MonoBehaviour
     /// <param name="delay">Float - Time to delay changing scenes</param>
     public IEnumerator LoadDevsScreen( float delay = 0 ) {
         yield return new WaitForSeconds( delay );
-        gameController.LoadScene( "Level1" );
+        gameController.LoadScene( "devsSplashScreen" );
     }
     
 }
