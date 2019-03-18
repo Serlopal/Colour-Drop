@@ -101,4 +101,12 @@ public class GameController : MonoBehaviour
         int score = int.Parse( uiScoreText.text );
         uiScoreText.text = ( score + toAdd ).ToString();
     }
+
+    /// <summary>
+    /// Load scene utility
+    /// </summary>
+    /// <param name="sceneName">string - Scene to be loaded. Must be added in build settings.</param>
+    public void LoadScene( string sceneName ) {
+        SceneManager.LoadScene( sceneName );
+    }
  }
