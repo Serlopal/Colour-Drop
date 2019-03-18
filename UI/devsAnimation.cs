@@ -87,7 +87,7 @@ public class devsAnimation : MonoBehaviour
     /// <param name="delay">Float - Time to delay changing scenes</param>
     public IEnumerator LoadMainMenuScreen( float delay = 0 ) {
         yield return new WaitForSeconds( delay );
-        gameController.LoadScene( "Level1" );
+        gameController.LoadScene( "MainTitle" );
     }
 
     /// <summary>
@@ -109,7 +109,7 @@ public class devsAnimation : MonoBehaviour
 
         // load main menu screen.
         if ( gameController != null ) {
-            StartCoroutine( LoadMainMenuScreen( 10f) );
+            StartCoroutine( LoadMainMenuScreen( 10f ) );
         }
     }
 }
