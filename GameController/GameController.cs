@@ -8,19 +8,23 @@ public class GameController : MonoBehaviour
 {
 
     public GameObject player;                                   // Player GameObject.
-
     public Material[] colors = new Material[3];                 // List of possible materials the player can swich to.
-    private GameObject[] uiPlayerColors;                        // List of possible player colors in the UI.
     public GameObject uiScore;                                 // Total current level score.
+    public GameObject uiGameOverPanel;                          // GameOverPanel UI gameobject.
 
     private Vector3 active = new Vector3( 1f, 1f, 1f );         // Vector 3 to use with the active item in the player colors UI.
     private Vector3 inactive = new Vector3( 0.5f, 0.5f, 0.5f ); // Vector3 to use with inactive items in the player colors UI.
+    private GameObject[] uiPlayerColors;                        // List of possible player colors in the UI.
+
+    Dictionary<string, string> playableScenes = new Dictionary<string, string>();   // Playable scenes where gameOver can be invoked.
 
     // Start is called before the first frame update
     void Start()
     {
         uiPlayerColors = GameObject.FindGameObjectsWithTag( "uiplayercolor" );
-        
+
+        // build playable scenes to invoke them in game over and other methods.
+        buildPlayableScenes();
     }
 
     // Update is called once per frame
@@ -85,7 +89,16 @@ public class GameController : MonoBehaviour
     /// GameOver method. Called when the player dies.
     /// </summary>
     public void GameOver() {
-        SceneManager.LoadScene( SceneManager.GetActiveScene().name );
+        string currentScene = SceneManager.GetActiveScene().name;
+
+        /// check if gameOver is being called in a playable scene.
+        if ( playableScenes.Count > 0 && playableScenes[ SceneManager.GetActiveScene().name ] == currentScene ) {
+            if ( uiGameOverPanel != null ) {
+                uiGameOverPanel.SetActive( true );
+                Destroy(player);
+            }
+        }
+
     }
 
     /// <summary>
@@ -108,5 +121,15 @@ public class GameController : MonoBehaviour
     /// <param name="sceneName">string - Scene to be loaded. Must be added in build settings.</param>
     public void LoadScene( string sceneName ) {
         SceneManager.LoadScene( sceneName );
+    }
+
+    /// <summary>
+    /// Build dictionary of playable scenes. This scenes are used to
+    /// check in which scenes the game has access to level objects like
+    /// the player or the game over UI.
+    /// </summary>
+    private void buildPlayableScenes() {
+        /// string currentScene = SceneManager.GetActiveScene().name;
+        playableScenes.Add( "TestLevel", "TestLevel" );
     }
  }

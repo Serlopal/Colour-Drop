@@ -83,4 +83,27 @@ public class Platforms : MonoBehaviour
 
         }
     }
+
+    /// <summary>
+    /// OnTriggerEnter is called when the Collider other enters the trigger.
+    /// </summary>
+    /// <param name="other">The other Collider involved in this collision.</param>
+    void OnTriggerEnter( Collider other )
+    {
+        if ( other.tag == "Player" ) {
+            Renderer playerRenderer = other.GetComponent<Renderer>();
+            Renderer thisRenderer = GetComponent<Renderer>();
+            
+            // collision checker for platforms.
+            if (gameObject.tag == "platform" ) {
+                checkColorCollision( playerRenderer, thisRenderer, 2 );
+            }
+
+            // collision checker for coins.
+            if (gameObject.tag == "coin" ) {
+                checkColorCollision( playerRenderer, thisRenderer, 1 );
+            }
+
+        }
+    }
 }
