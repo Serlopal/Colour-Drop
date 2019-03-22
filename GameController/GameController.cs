@@ -21,6 +21,7 @@ public class GameController : MonoBehaviour
     private Vector3 active = new Vector3( 1f, 1f, 1f );         // Vector 3 to use with the active item in the player colors UI.
     private Vector3 inactive = new Vector3( 0.5f, 0.5f, 0.5f ); // Vector3 to use with inactive items in the player colors UI.
     private GameObject[] uiPlayerColors;                        // List of possible player colors in the UI.
+    private int levelScoreCounter = 0;                          // Level score counter.
 
     Dictionary<string, string> playableScenes = new Dictionary<string, string>();   // Playable scenes where gameOver can be invoked.
 
@@ -163,6 +164,9 @@ public class GameController : MonoBehaviour
             return;
         }
 
+        // freeze player to avoid controlling during popup.
+        player.GetComponent<Player>().FreezePlayer();
+
         int totalScore = PlayerPrefs.GetInt( "TotalScore" );
 
         Text uiScoreText = uiScore.GetComponent<Text>();
@@ -182,14 +186,12 @@ public class GameController : MonoBehaviour
     public IEnumerator DisplayLevelScore( int score, int totalScore ) {
         yield return new WaitForSeconds(1f);
 
-        int counter = 0;
-
         uiScoreLabel.SetActive( true );
         uiLevelScore.SetActive( true );
 
-        while ( counter < score ) {
-            score++;
-            uiLevelScore.GetComponent<Text>().text = score.ToString();
+        while ( levelScoreCounter < score ) {
+            levelScoreCounter++;
+            uiLevelScore.GetComponent<Text>().text = levelScoreCounter.ToString();
             yield return null;
         }
 
