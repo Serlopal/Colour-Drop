@@ -107,4 +107,15 @@ public class Player : MonoBehaviour
             rigibody.velocity *= 0.99f;
         }
     }
+
+    /// <summary>
+    /// Freeze player movement - used on gameover
+    /// and end level popups.
+    /// </summary>
+    public void FreezePlayer() {
+        canMove = false;
+        rigibody.useGravity = false;
+        rigibody.velocity = Vector3.zero;
+        rigibody.angularVelocity = Vector3.zero;
+    }
 }

@@ -42,8 +42,7 @@ public class EndLevel : MonoBehaviour
     /// <param name="toAdd">int - Score to add, if neccesary</param>
     private void checkColorCollision( Renderer playerRenderer, Renderer thisRenderer, int toAdd = 1 ) {
         if ( playerRenderer.sharedMaterial.name == thisRenderer.sharedMaterial.name ) {
-            // TODO: Load next level when the color is the same.
-            gameController.GameOver();
+            gameController.endLevel();
         } else {
             gameController.GameOver();
         }
