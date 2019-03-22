@@ -11,6 +11,12 @@ public class GameController : MonoBehaviour
     public Material[] colors = new Material[3];                 // List of possible materials the player can swich to.
     public GameObject uiScore;                                 // Total current level score.
     public GameObject uiGameOverPanel;                          // GameOverPanel UI gameobject.
+    public GameObject uiLevelCompletedPanel;                    // Level Completed Panle UI gameObject.
+
+    public GameObject uiScoreLabel;                             // Label for Score gameObject in LevelCompletePanel
+    public GameObject uiLevelScore;                             // Total Level Score in level completed gameObject.
+    public GameObject uiTotalLabel;                             // Total score label gameobject in level completed panel.
+    public GameObject uiTotalScore;                             // Total player score gameobject in level completed panel.
 
     private Vector3 active = new Vector3( 1f, 1f, 1f );         // Vector 3 to use with the active item in the player colors UI.
     private Vector3 inactive = new Vector3( 0.5f, 0.5f, 0.5f ); // Vector3 to use with inactive items in the player colors UI.
@@ -146,4 +152,48 @@ public class GameController : MonoBehaviour
     public void setPlayerPrefs() {
         PlayerPrefs.SetInt( "TotalScore", 0 );
     }
+
+    /// <summary>
+    /// Displays completed level when the 
+    /// player collides with the end level
+    /// platform.
+    /// </summary>
+    public void endLevel() {
+        if ( uiScore == null ) {
+            return;
+        }
+
+        int totalScore = PlayerPrefs.GetInt( "TotalScore" );
+
+        Text uiScoreText = uiScore.GetComponent<Text>();
+        int score = int.Parse( uiScoreText.text );
+        
+        if ( uiScoreLabel != null && uiLevelScore != null ) {
+            StartCoroutine( DisplayLevelScore( score, totalScore ) );
+        }
+    }
+
+
+    /// <summary>
+    /// Displays level score at completed level panel.
+    /// </summary>
+    /// <param name="score">int - Level's score</param>
+    /// <param name="totalScore">int - Total player's score</param>
+    public IEnumerator DisplayLevelScore( int score, int totalScore ) {
+        yield return new WaitForSeconds(1f);
+
+        int counter = 0;
+
+        uiScoreLabel.SetActive( true );
+        uiLevelScore.SetActive( true );
+
+        while ( counter < score ) {
+            score++;
+            uiLevelScore.GetComponent<Text>().text = score.ToString();
+            yield return null;
+        }
+
+        // TODO: Call display total score here.
+    }
+
  }
