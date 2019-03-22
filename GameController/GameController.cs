@@ -25,6 +25,11 @@ public class GameController : MonoBehaviour
 
         // build playable scenes to invoke them in game over and other methods.
         buildPlayableScenes();
+
+        // set PlayerPrefs if user is in the main menu.
+        if ( SceneManager.GetActiveScene().name == "MainTitle" ) {
+            setPlayerPrefs();
+        }
     }
 
     // Update is called once per frame
@@ -131,5 +136,14 @@ public class GameController : MonoBehaviour
     private void buildPlayableScenes() {
         /// string currentScene = SceneManager.GetActiveScene().name;
         playableScenes.Add( "TestLevel", "TestLevel" );
+    }
+
+    /// <summary>
+    /// Set PlayerPrefs when the user is in the main
+    //  menu. PlayerPrefs will save total score trough the
+    /// levels.
+    /// </summary>
+    public void setPlayerPrefs() {
+        PlayerPrefs.SetInt( "TotalScore", 0 );
     }
  }
