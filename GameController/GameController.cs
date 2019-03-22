@@ -167,13 +167,16 @@ public class GameController : MonoBehaviour
         // freeze player to avoid controlling during popup.
         player.GetComponent<Player>().FreezePlayer();
 
-        int totalScore = PlayerPrefs.GetInt( "TotalScore" );
 
         Text uiScoreText = uiScore.GetComponent<Text>();
         int score = int.Parse( uiScoreText.text );
+
+        // set total score before animations.
+        int totalScore = PlayerPrefs.GetInt( "TotalScore" );
+        PlayerPrefs.SetInt( "TotalScore", totalScore + score );
         
         if ( uiScoreLabel != null && uiLevelScore != null ) {
-            StartCoroutine( DisplayLevelScore( score, totalScore ) );
+            StartCoroutine( DisplayLevelScore( score ) );
         }
     }
 
@@ -182,12 +185,15 @@ public class GameController : MonoBehaviour
     /// Displays level score at completed level panel.
     /// </summary>
     /// <param name="score">int - Level's score</param>
-    /// <param name="totalScore">int - Total player's score</param>
-    public IEnumerator DisplayLevelScore( int score, int totalScore ) {
-        yield return new WaitForSeconds(1f);
+    public IEnumerator DisplayLevelScore( int score ) {
+        uiLevelCompletedPanel.SetActive( true );
+
+        yield return new WaitForSeconds( 1f );
 
         uiScoreLabel.SetActive( true );
         uiLevelScore.SetActive( true );
+
+        yield return new WaitForSeconds( 1f );
 
         while ( levelScoreCounter < score ) {
             levelScoreCounter++;
@@ -195,7 +201,36 @@ public class GameController : MonoBehaviour
             yield return null;
         }
 
-        // TODO: Call display total score here.
+        if ( uiTotalLabel != null && uiTotalScore != null ) {
+            int totalScore = PlayerPrefs.GetInt( "TotalScore" );
+            StartCoroutine( DisplayTotalScore( score, totalScore ) );
+        } 
+    }
+
+    /// <summary>
+    /// Displays total score at completed level panel.
+    /// </summary>
+    /// <param name="score">int - level score.</param>
+    /// <param name="totalScore">int - total level score</param>
+    public IEnumerator DisplayTotalScore( int score, int totalScore ) {
+        yield return new WaitForSeconds( 0.5f );
+
+        uiTotalLabel.SetActive( true );
+        uiTotalScore.SetActive( true );
+
+        Debug.Log( score );
+        Debug.Log( totalScore );
+
+        if ( totalScore > score ) {
+
+            while( score < totalScore ) {
+                score++;
+                uiTotalScore.GetComponent<Text>().text = score.ToString();
+                yield return null;
+            }
+        } else {
+            uiTotalScore.GetComponent<Text>().text = totalScore.ToString();
+        }
     }
 
  }
