@@ -8,6 +8,7 @@ public class GameController : MonoBehaviour
 {
 
     public GameObject player;                                   // Player GameObject.
+    public bool isPlain = false;                                // Check if the camera has to be in plain mode or in vertical mode.
     public Material[] colors = new Material[3];                 // List of possible materials the player can swich to.
     public GameObject uiScore;                                 // Total current level score.
     public GameObject uiGameOverPanel;                          // GameOverPanel UI gameobject.

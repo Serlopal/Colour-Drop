@@ -6,16 +6,11 @@ using UnityEngine.SceneManagement;
 public class EndLevel : MonoBehaviour
 {
     private GameController gameController;
+    public bool avoidCheckingColor = false;             // If true, no color checker is required.
     // Start is called before the first frame update
     void Start()
     {
         gameController = GameObject.Find("GameController").GetComponent<GameController>();
-    }
-
-    // Update is called once per frame
-    void Update()
-    {
-        
     }
 
     /// <summary>
@@ -29,7 +24,11 @@ public class EndLevel : MonoBehaviour
         Renderer thisRenderer = GetComponent<Renderer>();
 
         if ( other.gameObject.tag == "Player" ) {
-            checkColorCollision( playerRenderer, thisRenderer );
+            if ( avoidCheckingColor ) {
+                checkColorCollision( playerRenderer, thisRenderer );
+            } else {
+                gameController.endLevel();
+            }
         }
     }
 

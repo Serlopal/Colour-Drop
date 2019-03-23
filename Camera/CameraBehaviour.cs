@@ -5,7 +5,6 @@ using UnityEngine;
 public class CameraBehaviour : MonoBehaviour
 {
     public GameObject player;                                  // player gameobject.
-    private Player playerScript;                                // player's logic script component.
     public float distanceFromPlayer = 0;                       // distance where the camera is located from player.
     public float distanceFromTop = - 8f;                       // used to show more screen below the ball when is failling, so the player can see the obstacles with ease.
     public float xAdjustement = - 15f;                         // used to correct the camera's X axis when the camera distance to the player changes.
@@ -16,25 +15,32 @@ public class CameraBehaviour : MonoBehaviour
     public GameObject pivot;                                  // player's pivot gameobject.
     private Rigidbody playerRigibody;                         // player's Rigibody component.
     private float toAdjust;                                   // distance between the camera and the player.
+    private Player playerScript;                              // player's logic script component.
+    private GameController gameController;                    // gamecontroller script.
 
     // Start is called before the first frame update
     void Start()
     {
+        gameController = GameObject.Find( "GameController" ).GetComponent<GameController>();
+        
         if ( player != null ) {
             playerScript = player.GetComponent<Player>();
             playerRigibody = player.GetComponent<Rigidbody>();
-            // InitUpdateCameraPosition();
-            initCameraPositionRotation();
+
+            if ( ! gameController.isPlain ) {
+                // set camera adjustement for ball failing.
+                initCameraPositionRotation();
+            }
         }
     }
 
     // Update is called once per frame
     void Update()
     {
-        if ( player != null ) {
+        if ( player != null && ! gameController.isPlain ) {
             // adjustCameraOnYAxis();
+            adjustCameraOnYAxis( player );
         }
-        adjustCameraOnYAxis( player );
     }
 
     /// <summary>
