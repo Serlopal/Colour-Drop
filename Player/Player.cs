@@ -31,12 +31,12 @@ public class Player : MonoBehaviour
         mainCamera = GameObject.FindGameObjectWithTag( "MainCamera" );
         rigibody = GetComponent<Rigidbody>();
 
-        if ( Input.GetMouseButton(0) ) {
+        if ( Input.GetMouseButton(0) && canMove ) {
             direction = 1;
             movePlayer( direction );
         }
 
-        if ( Input.GetMouseButton(1) ) {
+        if ( Input.GetMouseButton(1) && canMove ) {
             direction = - 1;
             movePlayer( direction );
         }
@@ -81,9 +81,11 @@ public class Player : MonoBehaviour
             speed = - ( speed );
         }
 
+        /*
         if ( ! canMove ) {
             rotationSpeed = 0;
         }
+        */
 
         transform.RotateAround( pivotPosition, axis, speed );
         if( mainCamera != null ) {

@@ -21,7 +21,7 @@ public class EndLevel : MonoBehaviour
     void OnCollisionEnter( Collision other )
     {
         if ( other.gameObject.tag == "Player" ) {
-            if ( avoidCheckingColor ) {
+            if ( ! avoidCheckingColor ) {
                 Renderer playerRenderer = other.gameObject.GetComponent<Renderer>();
                 Renderer thisRenderer = GetComponent<Renderer>();
                 checkColorCollision( playerRenderer, thisRenderer );

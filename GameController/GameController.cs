@@ -9,11 +9,12 @@ public class GameController : MonoBehaviour
 
     public GameObject player;                                   // Player GameObject.
     public bool isPlain = false;                                // Check if the camera has to be in plain mode or in vertical mode.
+    public int totalLevels = 15;                                // Total amount of levels. Used to build playable list of levels only when the main menu is trigger.
     public Material[] colors = new Material[3];                 // List of possible materials the player can swich to.
+    public GameObject uiColors;                                 // Colors's list panel ui gameobject.
     public GameObject uiScore;                                 // Total current level score.
     public GameObject uiGameOverPanel;                          // GameOverPanel UI gameobject.
     public GameObject uiLevelCompletedPanel;                    // Level Completed Panle UI gameObject.
-
     public GameObject uiScoreLabel;                             // Label for Score gameObject in LevelCompletePanel
     public GameObject uiLevelScore;                             // Total Level Score in level completed gameObject.
     public GameObject uiTotalLabel;                             // Total score label gameobject in level completed panel.
@@ -40,10 +41,10 @@ public class GameController : MonoBehaviour
         }
     }
 
-    // Update is called once per frame
+    // Update is called once per frame.
     void Update()
     {
-        if ( Input.GetKeyDown( "space" ) ) {
+        if ( Input.GetKeyDown( "space" ) && uiColors.active ) {
             ChangePlayerColor();
         }
     }
@@ -142,17 +143,15 @@ public class GameController : MonoBehaviour
     /// the player or the game over UI.
     /// </summary>
     private void buildPlayableScenes() {
-        int totalLevels = 15;
         string key;
 
         for( int i = 0; i < totalLevels; i++ ) {
-            key = "Level" + i.ToString();
+            key = "Level" + ( i + 1 ).ToString();
             playableScenes.Add( key, key );
-        } 
+        }
         
         // debug level.
-        playableScenes.Add( "TestLevel", "TestLevel" );
-        
+        playableScenes.Add( "TestLevel", "TestLevel" );   
     }
 
     /// <summary>
@@ -186,7 +185,7 @@ public class GameController : MonoBehaviour
         PlayerPrefs.SetInt( "TotalScore", totalScore + score );
         
         if ( uiScoreLabel != null && uiLevelScore != null ) {
-            StartCoroutine( DisplayLevelScore( score ) );
+            StartCoroutine( DisplayLevelScore( score, totalScore ) );
         }
     }
 
@@ -195,7 +194,8 @@ public class GameController : MonoBehaviour
     /// Displays level score at completed level panel.
     /// </summary>
     /// <param name="score">int - Level's score</param>
-    public IEnumerator DisplayLevelScore( int score ) {
+    /// <param name="initTotalScore">int - Total score before adding the new score</param>
+    public IEnumerator DisplayLevelScore( int score, int initTotalScore ) {
         uiLevelCompletedPanel.SetActive( true );
 
         yield return new WaitForSeconds( 1f );
@@ -213,29 +213,31 @@ public class GameController : MonoBehaviour
 
         if ( uiTotalLabel != null && uiTotalScore != null ) {
             int totalScore = PlayerPrefs.GetInt( "TotalScore" );
-            StartCoroutine( DisplayTotalScore( score, totalScore ) );
+            StartCoroutine( DisplayTotalScore( totalScore, initTotalScore ) );
         } 
     }
 
     /// <summary>
     /// Displays total score at completed level panel.
     /// </summary>
-    /// <param name="score">int - level score.</param>
     /// <param name="totalScore">int - total level score</param>
-    public IEnumerator DisplayTotalScore( int score, int totalScore ) {
-        yield return new WaitForSeconds( 0.5f );
+    /// <param name="initTotalScore">int - total score before adding the new score from this level</param>
+    public IEnumerator DisplayTotalScore( int totalScore, int initTotalScore ) {
+        // display current total score before the addition.
+        uiTotalScore.GetComponent<Text>().text = initTotalScore.ToString();
+
+        yield return new WaitForSeconds( 1f );
 
         uiTotalLabel.SetActive( true );
         uiTotalScore.SetActive( true );
 
-        Debug.Log( score );
-        Debug.Log( totalScore );
+        yield return new WaitForSeconds( 1f );
 
-        if ( totalScore > score ) {
+        if ( initTotalScore < totalScore ) {
 
-            while( score < totalScore ) {
-                score++;
-                uiTotalScore.GetComponent<Text>().text = score.ToString();
+            while( initTotalScore < totalScore ) {
+                initTotalScore++;
+                uiTotalScore.GetComponent<Text>().text = initTotalScore.ToString();
                 yield return null;
             }
         } else {
