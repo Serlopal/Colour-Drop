@@ -20,11 +20,10 @@ public class EndLevel : MonoBehaviour
     /// <param name="other">The Collision data associated with this collision.</param>
     void OnCollisionEnter( Collision other )
     {
-        Renderer playerRenderer = other.gameObject.GetComponent<Renderer>();
-        Renderer thisRenderer = GetComponent<Renderer>();
-
         if ( other.gameObject.tag == "Player" ) {
             if ( avoidCheckingColor ) {
+                Renderer playerRenderer = other.gameObject.GetComponent<Renderer>();
+                Renderer thisRenderer = GetComponent<Renderer>();
                 checkColorCollision( playerRenderer, thisRenderer );
             } else {
                 gameController.endLevel();

@@ -142,8 +142,17 @@ public class GameController : MonoBehaviour
     /// the player or the game over UI.
     /// </summary>
     private void buildPlayableScenes() {
-        /// string currentScene = SceneManager.GetActiveScene().name;
+        int totalLevels = 15;
+        string key;
+
+        for( int i = 0; i < totalLevels; i++ ) {
+            key = "Level" + i.ToString();
+            playableScenes.Add( key, key );
+        } 
+        
+        // debug level.
         playableScenes.Add( "TestLevel", "TestLevel" );
+        
     }
 
     /// <summary>

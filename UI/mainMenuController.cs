@@ -25,7 +25,7 @@ public class mainMenuController : MonoBehaviour
     /// </summary>
     public void startGameButtonController() {
         if ( gameController != null ) {
-            gameController.LoadScene( "TestLevel" );
+            gameController.LoadScene( "Level1" );
         }
     }
 
