@@ -4,17 +4,17 @@ using UnityEngine;
 
 public class Player : MonoBehaviour
 {
-    private float initZ;                                      // init Z axis position for player.  
     public float rotationSpeed = 10f;                         // player speed movement.
 
     public GameObject pivot;                                  // player's pivot gameobject.
 
     public bool canMove = false;                               // whether the player can move or not.
     public bool isMoving;                                     // whether the player is moving.
+    public float maxVelocity;                                 // max velocity allowed for the ball when failing.
+    private float initZ;                                      // init Z axis position for player.  
     
     private GameObject mainCamera;                            // main camera gameobject - used here to tell the camera when needs to rotate to keep the player focused in the current scene.
     private int direction;                                    // in which direction the player is moving;
-    public float maxVelocity;                                 // max velocity allowed for the ball when failing.
     private Rigidbody rigibody;                               // Player Rigibody component.
     
 
@@ -30,7 +30,6 @@ public class Player : MonoBehaviour
     {
         mainCamera = GameObject.FindGameObjectWithTag( "MainCamera" );
         rigibody = GetComponent<Rigidbody>();
-        Debug.Log( canMove );
 
         if ( Input.GetMouseButton(0) && canMove ) {
             direction = 1;
