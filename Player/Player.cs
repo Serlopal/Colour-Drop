@@ -9,7 +9,7 @@ public class Player : MonoBehaviour
 
     public GameObject pivot;                                  // player's pivot gameobject.
 
-    public bool canMove = true;                               // whether the player can move or not.
+    public bool canMove = false;                               // whether the player can move or not.
     public bool isMoving;                                     // whether the player is moving.
     
     private GameObject mainCamera;                            // main camera gameobject - used here to tell the camera when needs to rotate to keep the player focused in the current scene.
@@ -30,6 +30,7 @@ public class Player : MonoBehaviour
     {
         mainCamera = GameObject.FindGameObjectWithTag( "MainCamera" );
         rigibody = GetComponent<Rigidbody>();
+        Debug.Log( canMove );
 
         if ( Input.GetMouseButton(0) && canMove ) {
             direction = 1;
@@ -57,10 +58,21 @@ public class Player : MonoBehaviour
     /// Reset the ball rotation. Rotate adds a force that we want
     /// to avoid, so the ball does not rotate.
     /// </summary>
-    private void resetRotation() {
+    public void resetRotation() {
         Quaternion q = transform.rotation;
         q.eulerAngles = new Vector3( 0, 0, 0 );
         transform.rotation = q;
+    }
+
+    /// <summary>
+    /// Stop player rotation. Used when colliding
+    /// with solid blocks.
+    /// </summary>
+    public void stopRotation() {
+        Quaternion q = transform.rotation;
+        q.eulerAngles = new Vector3( q.x, q.y, q.z );
+        transform.rotation = q;
+        
     }
 
     /// <summary>
@@ -81,11 +93,9 @@ public class Player : MonoBehaviour
             speed = - ( speed );
         }
 
-        /*
-        if ( ! canMove ) {
+        if ( ! canMove || direction == 0 ) {
             rotationSpeed = 0;
         }
-        */
 
         transform.RotateAround( pivotPosition, axis, speed );
         if( mainCamera != null ) {

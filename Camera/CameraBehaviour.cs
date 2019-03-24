@@ -4,6 +4,7 @@ using UnityEngine;
 
 public class CameraBehaviour : MonoBehaviour
 {
+    public bool isFrozen = false;                              // whether the camera is frozen or not.
     public GameObject player;                                  // player gameobject.
     public float distanceFromPlayer = 0;                       // distance where the camera is located from player.
     public float distanceFromTop = - 8f;                       // used to show more screen below the ball when is failling, so the player can see the obstacles with ease.
@@ -63,7 +64,9 @@ public class CameraBehaviour : MonoBehaviour
     /// <param name="axis">Vector3 Axis to rotate around</param>
     /// <param name="speed">Rotation speed</param>
     public void SetCameraRotation( Vector3 pivotPosition, Vector3 axis, float speed ) {
-        transform.RotateAround( pivot.transform.position, axis, speed );
+        if ( ! isFrozen ) {
+            transform.RotateAround( pivot.transform.position, axis, speed );
+        }
     }
 
     /// <summary>
@@ -96,5 +99,15 @@ public class CameraBehaviour : MonoBehaviour
             // to adjust not working - distance is always the same so it can be, for now, hardcoded, but to fix.
             transform.position = new Vector3( transform.position.x, player.transform.position.y + 8f, transform.position.z );
         }
+    }
+
+    /// <summary>
+    /// Stops camera rotation. Used in colisions
+    /// where the player stops rotating in any direction.
+    /// </summary>
+    public void resetRotation() {
+        Quaternion q = transform.rotation;
+        q.eulerAngles = new Vector3( 0, 0, 0 );
+        transform.rotation = q;
     }
 }
