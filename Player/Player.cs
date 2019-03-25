@@ -11,7 +11,7 @@ public class Player : MonoBehaviour
     public bool canMove = false;                               // whether the player can move or not.
     public bool isMoving;                                     // whether the player is moving.
     public float maxVelocity;                                 // max velocity allowed for the ball when failing.
-    private float initZ;                                      // init Z axis position for player.  
+    private float initZ;                                    // init Z axis position for player.  
     
     private GameObject mainCamera;                            // main camera gameobject - used here to tell the camera when needs to rotate to keep the player focused in the current scene.
     private int direction;                                    // in which direction the player is moving;

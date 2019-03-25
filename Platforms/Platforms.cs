@@ -62,29 +62,6 @@ public class Platforms : MonoBehaviour
     }
 
     /// <summary>
-    /// Collisions controller for any gameobject that can be collided by the player.
-    /// </summary>
-    /// <param name="other">Collision GameObject collided by this item</param>
-    void OnCollisionEnter(Collision other)
-    {
-        if ( other.gameObject.tag == "Player" ) {
-            Renderer playerRenderer = other.gameObject.GetComponent<Renderer>();
-            Renderer thisRenderer = GetComponent<Renderer>();
-            
-            // collision checker for platforms.
-            if (gameObject.tag == "platform" ) {
-                checkColorCollision( playerRenderer, thisRenderer, 2 );
-            }
-
-            // collision checker for coins.
-            if (gameObject.tag == "coin" ) {
-                checkColorCollision( playerRenderer, thisRenderer, 1 );
-            }
-
-        }
-    }
-
-    /// <summary>
     /// OnTriggerEnter is called when the Collider other enters the trigger.
     /// </summary>
     /// <param name="other">The other Collider involved in this collision.</param>
@@ -102,6 +79,11 @@ public class Platforms : MonoBehaviour
             // collision checker for coins.
             if (gameObject.tag == "coin" ) {
                 checkColorCollision( playerRenderer, thisRenderer, 1 );
+            }
+
+            // collisions checker for enemies.
+            if ( gameObject.tag == "enemy" ) {
+                gameController.GameOver();
             }
 
         }
