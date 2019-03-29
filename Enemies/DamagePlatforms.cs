@@ -8,6 +8,8 @@ public class DamagePlatforms : MonoBehaviour
     public enum RotateAxis{x, y};
     public RotateAxis rotateAxis;                       // axis to rotate over itself.
     public float speed = 50f;                           // rotation speed.
+
+
     // Start is called before the first frame update
     void Start()
     {

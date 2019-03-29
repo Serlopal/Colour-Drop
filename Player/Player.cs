@@ -11,6 +11,7 @@ public class Player : MonoBehaviour
     public bool canMove = false;                               // whether the player can move or not.
     public bool isMoving;                                     // whether the player is moving.
     public float maxVelocity;                                 // max velocity allowed for the ball when failing.
+    public float directionSpeed = 150f;                        // speed used by the character to change direction.s
     private float initZ;                                    // init Z axis position for player.  
     
     private GameObject mainCamera;                            // main camera gameobject - used here to tell the camera when needs to rotate to keep the player focused in the current scene.
@@ -96,10 +97,16 @@ public class Player : MonoBehaviour
             rotationSpeed = 0;
         }
 
+        Debug.Log( direction );
+
         transform.RotateAround( pivotPosition, axis, speed );
         if( mainCamera != null ) {
             mainCamera.GetComponent<CameraBehaviour>().SetCameraRotation( pivotPosition, axis, speed );
         }
+
+        // change player direction.
+        //StopCoroutine( "ChangeDirection" );
+        StartCoroutine( ChangeDirection( direction ) );
     }
 
     /// <summary>
@@ -129,4 +136,34 @@ public class Player : MonoBehaviour
         rigibody.velocity = Vector3.zero;
         rigibody.angularVelocity = Vector3.zero;
     }
+
+    /// <summary>
+    /// Change player direction on movement.
+    /// TODO: Fix logic as the function does not work
+    /// as expected.
+    /// </summary>
+    /// <param name="direction">Int - player's current direction</param>
+    private IEnumerator ChangeDirection( int direction ) {
+        Quaternion q = transform.rotation;
+
+        if ( direction > 0 ) {
+            // look to the right side.
+            float target = 55;
+
+            while ( q.y < target ) {
+                q.eulerAngles = new Vector3( q.x, q.y + 1f, q.z );
+                transform.rotation = q;
+                yield return null;
+            }
+        } else {
+            // look to the left side.
+            float target = - 55;
+
+            while ( q.y > target ) {
+                q.eulerAngles = new Vector3( q.x, q.y - 1f, q.z );
+                transform.rotation = q;
+                yield return null;
+            }
+        }
+    } 
 }

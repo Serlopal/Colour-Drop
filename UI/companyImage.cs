@@ -10,7 +10,6 @@ public class companyImage : MonoBehaviour
     public float timeDuration = 1f;                         // Fade in / out time duration.
     public float delayInit = 1f;                            // Time to delay the animation init.
     public float totalDuration = 9f;                        // Total time the scene is loaded for the player. When this time passes, the next scene is loaded.
-
     private Image image;                                    // Image component to work with.
     private GameController gameController;                  // GameController - used to load scenes.
 
