@@ -256,12 +256,12 @@ public class GameController : MonoBehaviour
     /// <param name="changeParticles">GameObject change mode particles</param>
     public void ChangeModeController( GameObject changeParticles ) {
         if ( player ==  null || mainCamera == null ) {
-            Debug.Log( "Player and / or camera are not available" );
+            Debug.LogWarning( "Player and / or camera are not available" );
             return;
         }
 
         // move player to the center of the changeParticles.
-        // TODO: Call move player coroutine here.
+        StartCoroutine( player.GetComponent<Player>().changePlayerMode( changeParticles ) );
 
         // set camera to non-plain levels position and rotation.
         // TODO: Call set camera coroutine here.

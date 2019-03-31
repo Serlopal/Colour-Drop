@@ -95,7 +95,6 @@ public class CameraBehaviour : MonoBehaviour
 
         if ( playerRigibody.useGravity ) {
             toAdjust = transform.position.y - player.transform.position.y;
-            // Debug.Log( toAdjust );
             // to adjust not working - distance is always the same so it can be, for now, hardcoded, but to fix.
             transform.position = new Vector3( transform.position.x, player.transform.position.y + 8f, transform.position.z );
         }

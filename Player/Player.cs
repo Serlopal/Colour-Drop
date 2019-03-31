@@ -97,8 +97,6 @@ public class Player : MonoBehaviour
             rotationSpeed = 0;
         }
 
-        Debug.Log( direction );
-
         transform.RotateAround( pivotPosition, axis, speed );
         if( mainCamera != null ) {
             mainCamera.GetComponent<CameraBehaviour>().SetCameraRotation( pivotPosition, axis, speed );
@@ -165,5 +163,26 @@ public class Player : MonoBehaviour
                 yield return null;
             }
         }
-    } 
+    }
+
+    /// <summary>
+    /// Set the player at the center of the
+    /// change mode particles gameObject.
+    /// </summary>
+    /// <param name="changeParticles">GameObject - change mode particles gameObject</param>
+    public IEnumerator changePlayerMode( GameObject changeParticles ) {
+        float speed = 1f;
+        float radioAdjust = 1f;
+        canMove = false;
+
+        while ( transform.position.z < ( changeParticles.transform.position.z - radioAdjust ) ) {
+            // transform.Translate( transform.position.x + ( speed * Time.deltaTime ), transform.position.y, transform.position.z );
+            transform.position = new Vector3( transform.position.x, transform.position.y, transform.position.z + ( speed * Time.deltaTime ) );
+            Debug.Log( transform.position.z );
+            yield return null;
+        }
+
+        Debug.Log( "Move player completed" );
+        // TODO: Enable gravity and allow the player to control the ball again. 
+    }
 }
