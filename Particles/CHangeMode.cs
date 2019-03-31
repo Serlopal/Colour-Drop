@@ -20,7 +20,7 @@ public class CHangeMode : MonoBehaviour
     void OnTriggerEnter(Collider other)
     {
         if ( other.tag == "Player" && gameController != null ) {
-            // TODO: Call changeMode method here.
+            gameController.ChangeModeController( this.gameObject );
         }
     }
 }

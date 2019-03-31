@@ -8,6 +8,7 @@ public class GameController : MonoBehaviour
 {
 
     public GameObject player;                                   // Player GameObject.
+    public GameObject mainCamera;                               // Game Main Camera.
     public bool isPlain = false;                                // Check if the camera has to be in plain mode or in vertical mode.
     public int totalLevels = 15;                                // Total amount of levels. Used to build playable list of levels only when the main menu is trigger.
     public Material[] colors = new Material[3];                 // List of possible materials the player can swich to.
@@ -19,7 +20,6 @@ public class GameController : MonoBehaviour
     public GameObject uiLevelScore;                             // Total Level Score in level completed gameObject.
     public GameObject uiTotalLabel;                             // Total score label gameobject in level completed panel.
     public GameObject uiTotalScore;                             // Total player score gameobject in level completed panel.
-
     private Vector3 active = new Vector3( 1f, 1f, 1f );         // Vector 3 to use with the active item in the player colors UI.
     private Vector3 inactive = new Vector3( 0.5f, 0.5f, 0.5f ); // Vector3 to use with inactive items in the player colors UI.
     private GameObject[] uiPlayerColors;                        // List of possible player colors in the UI.
@@ -245,4 +245,28 @@ public class GameController : MonoBehaviour
         }
     }
 
+    /// <summary>
+    /// Change mode controller.
+    /// When the player enters the change mode área,
+    /// the ball moves to the center of the circle whilist
+    /// the camera goes to no-plain level position.
+    /// After that is completed, gravity is enabled for the ball
+    /// and the player gets the ball control again.
+    /// </summary>
+    /// <param name="changeParticles">GameObject change mode particles</param>
+    public void ChangeModeController( GameObject changeParticles ) {
+        if ( player ==  null || mainCamera == null ) {
+            Debug.Log( "Player and / or camera are not available" );
+            return;
+        }
+
+        // move player to the center of the changeParticles.
+        // TODO: Call move player coroutine here.
+
+        // set camera to non-plain levels position and rotation.
+        // TODO: Call set camera coroutine here.
+    }
+
  }
+
+
