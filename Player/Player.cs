@@ -172,13 +172,11 @@ public class Player : MonoBehaviour
     /// <param name="changeParticles">GameObject - change mode particles gameObject</param>
     public IEnumerator changePlayerMode( GameObject changeParticles ) {
         float speed = 1f;
-        float radioAdjust = 1f;
+        float radioAdjust = 1f;             // Adjustement to set the ball in the center of the particles circle.
         canMove = false;
 
         while ( transform.position.z < ( changeParticles.transform.position.z - radioAdjust ) ) {
-            // transform.Translate( transform.position.x + ( speed * Time.deltaTime ), transform.position.y, transform.position.z );
             transform.position = new Vector3( transform.position.x, transform.position.y, transform.position.z + ( speed * Time.deltaTime ) );
-            Debug.Log( transform.position.z );
             yield return null;
         }
 

@@ -109,4 +109,17 @@ public class CameraBehaviour : MonoBehaviour
         q.eulerAngles = new Vector3( 0, 0, 0 );
         transform.rotation = q;
     }
+
+    /// <summary>
+    /// Change camera mode from plain level to falling
+    /// level perspective.
+    /// </summary>
+    public IEnumerable changeCameraToFailingMode() {
+        // TODO: move the camera to failing position and rotation.
+        float speed = 1f;
+        Vector3 newPosition = new Vector3( 14.92f, 388.79f, 49.73f );
+        Vector3 newRotation = new Vector3( 49.274f, - 90.76f, - 0.494f );
+        
+        yield return null;
+    }
 }
